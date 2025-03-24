@@ -6,4 +6,6 @@ beautifulsoup4
 lxml
 python-docx
 torch
+gunicorn
+
 
