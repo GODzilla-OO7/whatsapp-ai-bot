@@ -7,9 +7,9 @@ from twilio.twiml.messaging_response import MessagingResponse
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-@app.route("/")
-def home():
-    return "WhatsApp AI Bot is Running!"
+
+@app.route("/whatsapp", methods=["POST"])
+def whatsapp_bot():
 
 
 # AI Model for Answer Prediction
