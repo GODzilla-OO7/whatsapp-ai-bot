@@ -10,6 +10,38 @@ app = Flask(__name__)
 
 @app.route("/whatsapp", methods=["POST"])
 def whatsapp_bot():
+    incoming_msg = request.values.get("Body", "").lower()
+    media_url = request.values.get("MediaUrl0", "")
+    resp = MessagingResponse()
+
+    # Debugging logs
+    print(f"📩 Received Message: {incoming_msg}")
+    print(f"📂 Received Media URL: {media_url}")
+
+    if "google.com/forms" in incoming_msg or "docs.google.com/forms" in incoming_msg:
+        print("✅ Google Form detected!")
+        questions = fetch_questions_from_google_form(incoming_msg)
+
+    elif media_url and media_url.endswith(".docx"):
+        print("✅ Word document detected!")
+        doc_path = "received_questionnaire.docx"
+        r = requests.get(media_url)
+        with open(doc_path, "wb") as f:
+            f.write(r.content)
+        questions = extract_text_from_docx(doc_path)
+
+    else:
+        print("❌ Invalid input received.")
+        resp.message("Please send a valid Word document or Google Form link.")
+        return str(resp)
+
+    # Extract & send key questions to the user
+    key_questions = extract_key_questions(questions)
+    resp.message("Please answer these questions:")
+    for q in key_questions:
+        resp.message(q)
+
+    return str(resp)
 
 
 # AI Model for Answer Prediction
