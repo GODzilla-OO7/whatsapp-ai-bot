@@ -17,6 +17,7 @@ TWILIO_WHATSAPP_NUMBER = "whatsapp:+14155238886"
 # Extract questions from a Word document
 def extract_text_from_docx(docx_file):
     doc = docx.Document(docx_file)
+
     return [para.text for para in doc.paragraphs if para.text.strip()]
 
 # Extract questions from a Google Form
@@ -73,3 +74,9 @@ def whatsapp_bot():
 
 if __name__ == "__main__":
     app.run(debug=True)
+import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))  # Use Render's port
+    app.run(host="0.0.0.0", port=port, debug=True)
+
