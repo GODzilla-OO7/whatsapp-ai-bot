@@ -49,7 +49,9 @@ def auto_fill_answers(questions, user_answers, full_questions):
 @app.route("/whatsapp", methods=["POST"])
 def whatsapp_bot():
     incoming_msg = request.values.get("Body", "").lower()
-    media_url = request.values.get("MediaUrl0", "")def whatsapp_bot():
+    media_url = request.values.get("MediaUrl0", "")
+
+def whatsapp_bot():
     incoming_msg = request.values.get("Body", "").lower()
     media_url = request.values.get("MediaUrl0", "")
     resp = MessagingResponse()
