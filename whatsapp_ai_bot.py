@@ -13,7 +13,7 @@ def home():
     return "WhatsApp AI Bot is Running!"
 
 # ✅ WhatsApp Webhook Route (Handles Incoming Messages)
-@app.route("/whatsapp", methods=["POST"])
+@app.route("/whatsapp", methods=["GET","POST"])
 def whatsapp_bot():
     incoming_msg = request.values.get("Body", "").lower()
     media_url = request.values.get("MediaUrl0", "")
@@ -65,7 +65,7 @@ def extract_text_from_docx(docx_file):
 def fetch_questions_from_google_form(form_url):
     response = requests.get(form_url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    questions = [q.text for q in soup.find_all('div', class_='M7eMe')]
+    questions = [q.text for q in soup.find_all('div') if 'question' in q.get('class',[])]
     return questions if questions else ["Unable to extract questions from the form."]
 
 # ✅ Extract key questions (5-6 most important)
